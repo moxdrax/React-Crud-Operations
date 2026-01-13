@@ -67,9 +67,7 @@ function deleterow(id){
           <li key={list.id}>
             {list.first} {list.last} — {list.phn}
           <button className="btn btn-danger" onClick={()=>deleterow(list.id)}>Delete</button>
-
           </li>
-
         ))}
         </label>
       </ul>
