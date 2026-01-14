@@ -12,27 +12,32 @@ function App2() {
     if (!firstname.trim() || !lastname.trim()) return;
 
     if (editingId) {
-      setLists(currentList =>
-        currentList.map(list =>
-          list.id === editingId
-            ? { ...list, first: firstname, last: lastname }
-            : list
-        )
-      );
+      setLists((currentList) => {
+        return currentList.map((list) => {
+          if (list.id === editingId) {
+            return {
+              ...list,
+              first: firstname,
+              last: lastname,
+            };
+          }
+          return list;
+        });
+      });
       setEditingId(null);
     } else {
       const alreadyExists = lists.some(
-        list => list.first === firstname && list.last === lastname
+        (list) => list.first === firstname && list.last === lastname
       );
       if (alreadyExists) return;
 
-      setLists(currentList => [
+      setLists((currentList) => [
         ...currentList,
         {
           id: crypto.randomUUID(),
           first: firstname,
-          last: lastname
-        }
+          last: lastname,
+        },
       ]);
     }
 
@@ -41,9 +46,7 @@ function App2() {
   }
 
   function deletelist(id) {
-    setLists(currentlist =>
-      currentlist.filter(list => list.id !== id)
-    );
+    setLists((currentlist) => currentlist.filter((list) => list.id !== id));
   }
 
   function startEdit(list) {
@@ -59,14 +62,14 @@ function App2() {
         <input
           type="text"
           value={firstname}
-          onChange={e => setFirstname(e.target.value)}
+          onChange={(e) => setFirstname(e.target.value)}
         />
 
         <label>Last name</label>
         <input
           type="text"
           value={lastname}
-          onChange={e => setLastname(e.target.value)}
+          onChange={(e) => setLastname(e.target.value)}
         />
 
         <button>{editingId ? "Update" : "Add"}</button>
@@ -76,7 +79,7 @@ function App2() {
 
       <ul>
         {lists.length === 0 && "Empty list"}
-        {lists.map(list => (
+        {lists.map((list) => (
           <li key={list.id}>
             {list.first} — {list.last}
             <button onClick={() => startEdit(list)}>Edit</button>
